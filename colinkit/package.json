@@ -1,0 +1,20 @@
+{
+  "name": "colinkit",
+  "version": "0.0.1",
+  "description": "colin' react-native uikit",
+  "main": "index.js",
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+  "keywords": [
+    "colin",
+    "react",
+    "native",
+    "uikit"
+  ],
+
+  "author": "colin",
+  "license": "ISC"
+}

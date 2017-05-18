@@ -1,0 +1,3 @@
+rootProject.name = 'hzdRedux'
+
+include ':app'
