@@ -2,43 +2,44 @@
  * Created by Colin on 2017/5/18.
  */
 import React from 'react';
-import {View,ToastAndroid} from 'react-native';
-import {CLHeader,CLForm,CLFormContainer} from 'colinkit';
+import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
+import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as LoginAction from './action';
 
-class LoginPage extends React.Component{
-    constructor(props){
+class LoginPage extends React.Component {
+    constructor(props) {
         super(props);
         this._onClearAccount = this._onClearAccount.bind(this);
         this._handleAccountChange = this._handleAccountChange.bind(this);
         this._handlePWDChange = this._handlePWDChange.bind(this);
         this._onClearPWD = this._onClearPWD.bind(this);
         this._handleEye = this._handleEye.bind(this);
+        this._handleLogin = this._handleLogin.bind(this);
 
     }
 
-    render(){
-        if(__DEV__){
-            console.log('LoginPage Render',this.props.LoginReducer)
+    render() {
+        if (__DEV__) {
+            console.log('LoginPage Render', this.props.LoginReducer)
         }
         const account = this.props.LoginReducer.account;
         const pwd = this.props.LoginReducer.pwd;
         const eyeOpen = this.props.LoginReducer.eyeOpen;
 
-        const accountImageVisiable =account != '';
-        const pwdImageVisiable =pwd != '';
+        const accountImageVisiable = account != '';
+        const pwdImageVisiable = pwd != '';
 
-        return(
+        return (
             <CLFormContainer>
-                <CLHeader title = '登录'/>
-                <CLForm style = {{flex:1}}>
+                <CLHeader title='登录'/>
+                <CLForm style={{flex:1}}>
                     <CLForm.CLAccountInput
                         label="手机号:"
                         onClearPress={()=>this._onClearAccount()}
-                        value = {account}
+                        value={account}
                         placeholder="请输入手机号"
                         keyboardType="numeric"
                         maxLength={11}
@@ -49,43 +50,101 @@ class LoginPage extends React.Component{
                     <CLForm.CLPWDInput
                         label="密   码:"
                         onClearPress={()=>this._onClearPWD()}
-                        value = {pwd}
+                        value={pwd}
                         placeholder="请输入密码"
                         onChangeText={
                             (text)=>this._handlePWDChange(text)
                         }
                         clearImageVisable={pwdImageVisiable}
-                        eyeOpen = {!eyeOpen}
-                        onEyePress ={()=>this._handleEye(eyeOpen)}/>
+                        eyeOpen={!eyeOpen}
+                        onEyePress={()=>this._handleEye(eyeOpen)}/>
                 </CLForm>
+                <View style={styles.rememberContainer}>
+                    <TouchableOpacity onPress={()=>this._rememberTouch()}>
+                        <Image
+                            style={{width:20,height:20}}
+                            resizeMode='stretch'/>
+                    </TouchableOpacity>
+                    <Text>记住密码</Text>
+                </View>
+                <View style={styles.wrap}>
+                    <CLButton
+                        activeOpacity={0.8}
+                        onPress={() => this._handleLogin()}
+                        disabled={!(account && pwd)}>登录</CLButton>
+                </View>
+                <View style={styles.textContainer}>
+                    <TouchableOpacity
+                    >
+                        <Text>立即注册</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Text>忘记密码</Text>
+                    </TouchableOpacity>
+
+                </View>
             </CLFormContainer>
         )
     }
 
-    _handleAccountChange(text){
+    //监听账号变化
+    _handleAccountChange(text) {
         const {accountChange} = this.props.login;
         accountChange(text);
     }
 
-    _onClearAccount(){
+    //清楚账号
+    _onClearAccount() {
         const {accountClear} = this.props.login;
         accountClear();
     }
 
-    _handlePWDChange(text){
+    //监听密码变化
+    _handlePWDChange(text) {
         const {pwdChange} = this.props.login;
         pwdChange(text)
     }
-    _onClearPWD(){
+
+    //清除密码
+    _onClearPWD() {
         const {pwdClear} = this.props.login;
         pwdClear();
     }
 
-    _handleEye(eyeOpen){
+    //密码可见开关
+    _handleEye(eyeOpen) {
         const {changeEye} = this.props.login;
         changeEye(eyeOpen)
     }
+
+    //登录
+    _handleLogin() {
+
+    }
 }
+
+const styles = StyleSheet.create({
+    rememberContainer: {
+        height: 20,
+        width: 100,
+        flexDirection: 'row',
+        marginVertical: 10,
+        marginRight: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    textContainer: {
+        height: 60,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginHorizontal: 10
+    },
+    wrap: {
+        padding: 20,
+        alignSelf: 'stretch'
+    },
+});
 
 const mapStateToProps = (state)=>
     ({
@@ -95,7 +154,6 @@ const mapStateToProps = (state)=>
 const mapActionCreators = (dispatch)=>({
     login: bindActionCreators(LoginAction, dispatch),
 });
-
 
 
 export default connect(mapStateToProps, mapActionCreators)(LoginPage);
