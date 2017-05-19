@@ -9,7 +9,8 @@ import BasicField from './basic-field';
 import DateInput from './date-input';
 import TextField from './text-field';
 import TextInput from './text-input';
-import AccountInput from './account-input'
+import AccountInput from './account-input';
+import PWDInput from './pwd-input';
 
 /**
  * Usage:
@@ -36,4 +37,5 @@ Form.CLDateInput = DateInput;
 Form.CLTextField = TextField;
 
 Form.CLAccountInput = AccountInput;
+Form.CLPWDInput=PWDInput;
 export default Form;

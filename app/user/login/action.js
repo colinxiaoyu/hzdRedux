@@ -12,7 +12,27 @@ export function accountChange(account) {
 
 export function accountClear() {
     return{
-        type:types.ACCOUNTCHANGE,
+        type:types.CLEARACCOUNT,
         account:''
+    }
+}
+
+export function pwdChange(pwd) {
+    return{
+        type:types.PWDCHANGE,
+        pwd:pwd
+    }
+}
+export function pwdClear() {
+    return{
+        type:types.CLEARPWD,
+        pwd:''
+    }
+}
+
+export function changeEye(eye) {
+    return{
+        type:types.EYEOPEN,
+        eyeOpen:!eye
     }
 }

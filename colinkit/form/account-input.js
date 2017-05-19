@@ -4,8 +4,6 @@
 import React from 'react';
 import {View, Text, PixelRatio, TextInput, Platform, StyleSheet,Image,TouchableOpacity} from 'react-native';
 
-const noop = () => {};
-
 
 /**
  * 输入框公共组件
@@ -14,11 +12,7 @@ class AccountInput extends React.Component {
     constructor(props) {
         super(props);
     }
-
-    static defaultProps = {
-        onChangeText: noop
-    };
-
+    
     render() {
         return (
             <View
@@ -42,9 +36,6 @@ class AccountInput extends React.Component {
                     onFocus={this.props.onFocus}
                     onChangeText={(text)=>{
                         this.props.onChangeText(text);
-                        if(text!=''){
-
-                        }
                     }}
                     autoFocus={this.props.autoFocus}
                     clearButtonMode='while-editing'

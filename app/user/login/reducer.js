@@ -4,7 +4,9 @@
 import * as types from './actionType';
 
 const initState = {
-    account:'初始化的account'
+    account:'',
+    pwd:'',
+    eyeOpen:false
 };
 
 export default function LoginReducer(state = initState,action) {
@@ -14,14 +16,32 @@ export default function LoginReducer(state = initState,action) {
                 {},state,{
                     account:action.account
                 }
-            )
+            );
         break;
         case types.CLEARACCOUNT:
             return Object.assign(
                 {},state,{
                     account:action.account
                 }
-            )
+            );
+        case types.PWDCHANGE:
+            return Object.assign(
+                {},state,{
+                    pwd:action.pwd
+                }
+            );
+        case types.CLEARPWD:
+            return Object.assign(
+                {},state,{
+                    pwd:action.pwd
+                }
+            );
+        case types.EYEOPEN:
+            return Object.assign(
+                {},state,{
+                    eyeOpen:action.eyeOpen
+                }
+            );
         default:
             return state;
     }
