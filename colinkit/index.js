@@ -3,8 +3,12 @@
  */
 import CLTabBar from './tabBar'
 import CLHeader from './header'
+import CLFormContainer from './form-container'
+import CLForm from './form'
 
 export {
     CLTabBar,
-    CLHeader
+    CLHeader,
+    CLFormContainer,
+    CLForm,
 }

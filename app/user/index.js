@@ -2,14 +2,14 @@
  * Created by Colin on 2017/5/18.
  */
 import React from 'react';
-import {View,Text,StyleSheet} from 'react-native';
-
+import {View,StyleSheet} from 'react-native';
+import LoginPage from './login/LoginPage'
 class User extends React.Component{
 
     render(){
         return(
             <View style = {styles.container}>
-                <Text>User</Text>
+                <LoginPage/>
             </View>
         )
     }

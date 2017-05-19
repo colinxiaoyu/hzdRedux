@@ -1,3 +1,6 @@
+/**
+ * Created by Colin on 2017/5/18.
+ */
 import React from 'react';
 import {View, Text, Image, PixelRatio, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 
