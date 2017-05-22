@@ -49,6 +49,12 @@ export default function LoginReducer(state = initState,action) {
                     PWDRem:action.PWDRem
                 }
             );
+        case types.LOGIN:
+            return Object.assign(
+                {},state,{
+                    res:action.res
+                }
+            );
         default:
             return state;
     }

@@ -3,4 +3,3 @@
  */
 export const SHOWLOADING = 'SHOWLOADING';
 
-export const RES = 'RES';

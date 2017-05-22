@@ -5,7 +5,6 @@ import * as types from './actionType';
 
 const initState = {
     showLoading:false,
-    res:''
 };
 
 export  default function GlobalReducer(state = initState,action) {
@@ -14,12 +13,6 @@ export  default function GlobalReducer(state = initState,action) {
             return Object.assign(
                 {},state,{
                     showLoading:action.showLoading
-                }
-            );
-        case types.RES:
-            return Object.assign(
-                {},state,{
-                    res:action.res
                 }
             );
         default:

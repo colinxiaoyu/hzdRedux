@@ -43,3 +43,7 @@ export function rememberPWD(isRem) {
         PWDRem:!isRem
     }
 }
+
+export function login(account, pwd, isRem) {
+    
+}
