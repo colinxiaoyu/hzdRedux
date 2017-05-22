@@ -8,6 +8,7 @@ import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as LoginAction from './action';
+import {loginapi} from './webapi'
 
 
 class LoginPage extends React.Component {
@@ -124,8 +125,7 @@ class LoginPage extends React.Component {
     //登录
     _handleLogin(account,pwd,remPWD) {
         const {fetchApi} = this.props.global;
-        const {login} = this.props.login;
-        login(fetchApi,account,pwd,remPWD);
+        loginapi(fetchApi,account,pwd,remPWD)
     }
 }
 

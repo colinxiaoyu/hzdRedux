@@ -15,9 +15,5 @@ export function loginapi(fetch,account,pwd,remPWD) {
         method: 'POST',
         body: form
     };
-    const res =fetch(`${Config.HOST}/api/100/user/logon`, request, {showLoading: true});
-    if(__DEV__){
-        console.log('LoginPage fetchApi:' ,res);
-    }
-    return res;
+    return fetch(`${Config.HOST}/api/100/user/logon`, request, {showLoading: true});
 }

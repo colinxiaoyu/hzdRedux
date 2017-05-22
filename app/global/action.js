@@ -12,6 +12,13 @@ export function showLoading(isShow) {
     }
 }
 
+export function produnceRes(res) {
+    return{
+        type:types.RES,
+        res:res
+    }
+}
+
 export function fetchApi(url, req, config) {
     //默认参数
     let request = {
@@ -94,7 +101,7 @@ export function fetchApi(url, req, config) {
                     }
 
                     //数据正确返回
-                    resolve(res);
+                    resolve(dispatch(produnceRes(res)));
                 } else {
                     if (__DEV__) {
                         console.info('响应->', url, httpStatus, '\n', res);
@@ -115,7 +122,7 @@ export function fetchApi(url, req, config) {
                     //         msg.emit('app:tip', res.message);
                     //     }
                     // }
-                    reject(res);
+                    reject(dispatch(produnceRes(res)));
                 }
             })
             .catch((err) => {
@@ -132,10 +139,10 @@ export function fetchApi(url, req, config) {
                 //done会导致整个进程crash掉。
                 //统一所有错误的数据格式
                 //reject(err);
-                reject({
+                reject(dispatch(produnceRes({
                     code: 'K-000001',
                     message: '网络错误'
-                });
+                })));
             })
             .done();
     });
