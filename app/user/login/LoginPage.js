@@ -2,7 +2,7 @@
  * Created by Colin on 2017/5/18.
  */
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, Image,NativeModules} from 'react-native';
 import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 
 import {bindActionCreators} from 'redux';
@@ -122,10 +122,22 @@ class LoginPage extends React.Component {
         const {rememberPWD} = this.props.login;
         rememberPWD(remPWD);
     }
+
+
     //登录
     async _handleLogin(account,pwd,remPWD) {
+        let md5Password = null;
+        NativeModules.Md5.getMd5(pwd)
+            .then((msg)=>{
+                md5Password = msg
+                if(__DEV__){
+                    console.log('LoginPage md5Password',md5Password);
+                }
+            }).catch((err)=>{
+            //handle err
+        });
         const {fetchApi} = this.props.global;//获取全局api方法
-        const res =await loginapi(fetchApi,account,pwd,remPWD);//同步等待返回结果
+        const res =await loginapi(fetchApi,account,md5Password,remPWD);//同步等待返回结果
         const {login} = this.props.login;//获取action
         login(res);//更新当前res状态
     }
