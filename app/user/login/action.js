@@ -36,3 +36,14 @@ export function changeEye(eye) {
         eyeOpen:!eye
     }
 }
+
+export function rememberPWD(isRem) {
+    return{
+        type:types.PWDREMEMBER,
+        PWDRem:!isRem
+    }
+}
+
+export function login(account, pwd, isRem) {
+    
+}

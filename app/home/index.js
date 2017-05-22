@@ -43,9 +43,9 @@ class Home extends React.Component{
                 locked
                 scrollWithoutAnimation
             >
-                <Main tabLabel="home" navigator={this.props.navigator}/>
-                <Dynamic tabLabel="huizhong" navigator={this.props.navigator}/>
-                <User tabLabel="huizhong" navigator={this.props.navigator}/>
+                <Main tabLabel="main"  {...this.props}/>
+                <Dynamic tabLabel="huizhong"  {...this.props}/>
+                <User tabLabel="user"  {...this.props}/>
             </ScrollableTabView>
         )
     }

@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import {View, Text, PixelRatio, TouchableOpacity, Image, Platform, StyleSheet} from 'react-native';
-const noop = () => {};
 
 
 class TextFiled extends React.Component{

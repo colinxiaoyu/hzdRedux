@@ -8,3 +8,7 @@ export const CLEARACCOUNT = 'CLEARACCOUNT';
 export const PWDCHANGE = 'PWDCHANGE';
 export const CLEARPWD = 'CLEARPWD';
 export const EYEOPEN = 'EYEOPEN';
+//记住密码
+export const PWDREMEMBER='PWDREMEMBER';
+//登录
+export const LOGIN= 'LOGIN';

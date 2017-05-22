@@ -4,17 +4,12 @@
 import React from 'react';
 import {View, Text, PixelRatio, TextInput, Platform, StyleSheet} from 'react-native';
 
-const noop = () => {};
 
 
 /**
  * 输入框公共组件
  */
 class Input extends React.Component{
-
-  static defaultProps = {
-    onChangeText: noop
-  };
 
   render() {
     return (

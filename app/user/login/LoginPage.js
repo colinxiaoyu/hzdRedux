@@ -8,6 +8,7 @@ import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as LoginAction from './action';
+import Config from '../../global/config';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -18,16 +19,17 @@ class LoginPage extends React.Component {
         this._onClearPWD = this._onClearPWD.bind(this);
         this._handleEye = this._handleEye.bind(this);
         this._handleLogin = this._handleLogin.bind(this);
-
+        this._rememberTouch = this._rememberTouch.bind(this);
     }
 
     render() {
         if (__DEV__) {
-            console.log('LoginPage Render', this.props.LoginReducer)
+            console.log('LoginPage Render', this.props)
         }
         const account = this.props.LoginReducer.account;
         const pwd = this.props.LoginReducer.pwd;
         const eyeOpen = this.props.LoginReducer.eyeOpen;
+        const remPWD = this.props.LoginReducer.PWDRem;
 
         const accountImageVisiable = account != '';
         const pwdImageVisiable = pwd != '';
@@ -60,8 +62,9 @@ class LoginPage extends React.Component {
                         onEyePress={()=>this._handleEye(eyeOpen)}/>
                 </CLForm>
                 <View style={styles.rememberContainer}>
-                    <TouchableOpacity onPress={()=>this._rememberTouch()}>
+                    <TouchableOpacity onPress={()=>this._rememberTouch(remPWD)}>
                         <Image
+                            source = {remPWD?require('./img/pass_before.png'):require('./img/pwd_after.png')}
                             style={{width:20,height:20}}
                             resizeMode='stretch'/>
                     </TouchableOpacity>
@@ -70,8 +73,8 @@ class LoginPage extends React.Component {
                 <View style={styles.wrap}>
                     <CLButton
                         activeOpacity={0.8}
-                        onPress={() => this._handleLogin()}
-                        disabled={!(account && pwd)}>登录</CLButton>
+                        onPress={() => this._handleLogin(account,pwd)}
+                        disabled={!(account && pwd&&account.length==11)}>登录</CLButton>
                 </View>
                 <View style={styles.textContainer}>
                     <TouchableOpacity
@@ -116,10 +119,27 @@ class LoginPage extends React.Component {
         const {changeEye} = this.props.login;
         changeEye(eyeOpen)
     }
-
+    //记住密码
+    _rememberTouch(remPWD){
+        const {rememberPWD} = this.props.login;
+        rememberPWD(remPWD);
+    }
     //登录
-    _handleLogin() {
+    _handleLogin(account,pwd) {
+        let form = new FormData();
+        form.append('user', account);
+        form.append('password', pwd);
 
+        let request = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            method: 'POST',
+            body: form
+        };
+
+        const {fetchApi} = this.props.global;
+        fetchApi(`${Config.HOST}/api/100/user/logon`, request, {showLoading: true});
     }
 }
 
@@ -138,6 +158,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+
         marginHorizontal: 10
     },
     wrap: {

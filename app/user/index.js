@@ -7,9 +7,12 @@ import LoginPage from './login/LoginPage'
 class User extends React.Component{
 
     render(){
+        if(__DEV__){
+            console.log('User render', this.props)
+        }
         return(
             <View style = {styles.container}>
-                <LoginPage/>
+                <LoginPage  {...this.props}/>
             </View>
         )
     }

@@ -3,7 +3,7 @@
  */
 import React from 'react'
 import {Provider} from 'react-redux';
-import Home from './home'
+import Global from './global'
 import store from './store/store';
 
 export default class App extends React.Component {
@@ -11,7 +11,7 @@ export default class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <Home/>
+                <Global/>
             </Provider>)
     }
 }

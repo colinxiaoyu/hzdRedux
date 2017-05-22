@@ -6,7 +6,8 @@ import * as types from './actionType';
 const initState = {
     account:'',
     pwd:'',
-    eyeOpen:false
+    eyeOpen:false,
+    PWDRem:false,
 };
 
 export default function LoginReducer(state = initState,action) {
@@ -40,6 +41,12 @@ export default function LoginReducer(state = initState,action) {
             return Object.assign(
                 {},state,{
                     eyeOpen:action.eyeOpen
+                }
+            );
+        case types.PWDREMEMBER:
+            return Object.assign(
+                {},state,{
+                    PWDRem:action.PWDRem
                 }
             );
         default:

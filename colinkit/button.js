@@ -5,8 +5,6 @@
 
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet, Dimensions} from 'react-native';
-const noop = () => {
-};
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 
@@ -26,7 +24,6 @@ class CLButton extends React.Component{
     textStyle: {},
     activeOpacity: 0,
     disabled: true,
-    onPress: noop
   };
   constructor(props){
     super(props);
