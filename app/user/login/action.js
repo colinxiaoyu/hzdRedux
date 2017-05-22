@@ -2,6 +2,7 @@
  * Created by Colin on 2017/5/19.
  */
 import * as types from './actionType';
+import {loginapi} from './webapi'
 
 export function accountChange(account) {
     return{
@@ -44,6 +45,11 @@ export function rememberPWD(isRem) {
     }
 }
 
-export function login(account, pwd, isRem) {
-    
+export  function login(fetchApi,account, pwd, isRem) {
+    let res =  loginapi(fetchApi,account, pwd, isRem);
+
+    return{
+        type:types.LOGIN,
+        res:res
+    }
 }

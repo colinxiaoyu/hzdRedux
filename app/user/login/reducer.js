@@ -8,6 +8,7 @@ const initState = {
     pwd:'',
     eyeOpen:false,
     PWDRem:false,
+    res:''
 };
 
 export default function LoginReducer(state = initState,action) {
@@ -47,6 +48,12 @@ export default function LoginReducer(state = initState,action) {
             return Object.assign(
                 {},state,{
                     PWDRem:action.PWDRem
+                }
+            );
+        case types.LOGIN:
+            return Object.assign(
+                {},state,{
+                    res:action.res
                 }
             );
         default:

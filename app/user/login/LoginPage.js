@@ -8,7 +8,7 @@ import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as LoginAction from './action';
-import Config from '../../global/config';
+
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -26,10 +26,7 @@ class LoginPage extends React.Component {
         if (__DEV__) {
             console.log('LoginPage Render', this.props)
         }
-        const account = this.props.LoginReducer.account;
-        const pwd = this.props.LoginReducer.pwd;
-        const eyeOpen = this.props.LoginReducer.eyeOpen;
-        const remPWD = this.props.LoginReducer.PWDRem;
+        const {account,pwd,eyeOpen,remPWD}= this.props.LoginReducer;
 
         const accountImageVisiable = account != '';
         const pwdImageVisiable = pwd != '';
@@ -73,7 +70,7 @@ class LoginPage extends React.Component {
                 <View style={styles.wrap}>
                     <CLButton
                         activeOpacity={0.8}
-                        onPress={() => this._handleLogin(account,pwd)}
+                        onPress={() => this._handleLogin(account,pwd,remPWD)}
                         disabled={!(account && pwd&&account.length==11)}>登录</CLButton>
                 </View>
                 <View style={styles.textContainer}>
@@ -125,21 +122,10 @@ class LoginPage extends React.Component {
         rememberPWD(remPWD);
     }
     //登录
-    _handleLogin(account,pwd) {
-        let form = new FormData();
-        form.append('user', account);
-        form.append('password', pwd);
-
-        let request = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            method: 'POST',
-            body: form
-        };
-
+    _handleLogin(account,pwd,remPWD) {
         const {fetchApi} = this.props.global;
-        fetchApi(`${Config.HOST}/api/100/user/logon`, request, {showLoading: true});
+        const {login} = this.props.login;
+        login(fetchApi,account,pwd,remPWD);
     }
 }
 
