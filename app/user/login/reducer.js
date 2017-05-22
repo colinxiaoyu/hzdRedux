@@ -7,7 +7,8 @@ const initState = {
     account:'',
     pwd:'',
     eyeOpen:false,
-    PWDRem:false
+    PWDRem:false,
+    res:''
 };
 
 export default function LoginReducer(state = initState,action) {

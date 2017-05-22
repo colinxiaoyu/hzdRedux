@@ -44,6 +44,9 @@ export function rememberPWD(isRem) {
     }
 }
 
-export function login(account, pwd, isRem) {
-    
+export function login(res) {
+    return{
+        type:types.LOGIN,
+        res:res
+    }
 }

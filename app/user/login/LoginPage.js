@@ -123,9 +123,11 @@ class LoginPage extends React.Component {
         rememberPWD(remPWD);
     }
     //登录
-    _handleLogin(account,pwd,remPWD) {
-        const {fetchApi} = this.props.global;
-        loginapi(fetchApi,account,pwd,remPWD)
+    async _handleLogin(account,pwd,remPWD) {
+        const {fetchApi} = this.props.global;//获取全局api方法
+        const res =await loginapi(fetchApi,account,pwd,remPWD);//同步等待返回结果
+        const {login} = this.props.login;//获取action
+        login(res);//更新当前res状态
     }
 }
 
