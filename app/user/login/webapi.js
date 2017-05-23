@@ -7,6 +7,7 @@ import {NativeModules} from 'react-native'
 export function loginapi(fetch,account,pwd) {
 
     let md5Password = null;
+    //这个有点坑，需记住Promise是异步操作，输出log日志才知道，密码为空
     NativeModules.Md5.getMd5(pwd)
         .then((msg)=>{
             md5Password = msg;
