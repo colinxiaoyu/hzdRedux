@@ -4,6 +4,8 @@
 import React from 'react';
 import {View,StyleSheet} from 'react-native';
 import LoginPage from './login/LoginPage'
+import LogedPage from './loged/LogedPage'
+
 class User extends React.Component{
 
     render(){
@@ -12,7 +14,7 @@ class User extends React.Component{
         }
         return(
             <View style = {styles.container}>
-                <LoginPage  {...this.props}/>
+                <LogedPage  {...this.props}/>
             </View>
         )
     }

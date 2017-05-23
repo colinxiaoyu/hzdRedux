@@ -8,6 +8,7 @@ import CLForm from './form';
 import CLButton from './button';
 import CLModalLoading from './modal-loading';
 import CLTip from './tip';
+import CLItem from './item';
 
 
 export {
@@ -17,5 +18,6 @@ export {
     CLForm,
     CLButton,
     CLModalLoading,
-    CLTip
+    CLTip,
+    CLItem
 }
