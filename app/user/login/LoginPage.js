@@ -2,7 +2,7 @@
  * Created by Colin on 2017/5/18.
  */
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, Image,NativeModules} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, Image, AsyncStorage} from 'react-native';
 import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 
 import {bindActionCreators} from 'redux';
@@ -23,11 +23,26 @@ class LoginPage extends React.Component {
         this._rememberTouch = this._rememberTouch.bind(this);
     }
 
+    componentWillMount() {
+        AsyncStorage.getItem('user').then(items=> {
+            if (items) {
+                const user = JSON.parse(items);
+                this._handleAccountChange(user.account);
+                this._handlePWDChange(user.pwd);
+                const {rememberPWD} = this.props.login;
+                rememberPWD(user.isRemember);
+            }
+            if (__DEV__) {
+                console.log('LoginPage componentWillMount', items)
+            }
+        })
+    }
+
     render() {
         if (__DEV__) {
             console.log('LoginPage Render', this.props)
         }
-        const {account,pwd,eyeOpen,remPWD}= this.props.LoginReducer;
+        const {account, pwd, eyeOpen, PWDRem}= this.props.LoginReducer;
 
         const accountImageVisiable = account != '';
         const pwdImageVisiable = pwd != '';
@@ -60,9 +75,9 @@ class LoginPage extends React.Component {
                         onEyePress={()=>this._handleEye(eyeOpen)}/>
                 </CLForm>
                 <View style={styles.rememberContainer}>
-                    <TouchableOpacity onPress={()=>this._rememberTouch(remPWD)}>
+                    <TouchableOpacity onPress={()=>this._rememberTouch(account,pwd,PWDRem)}>
                         <Image
-                            source = {remPWD?require('./img/pass_before.png'):require('./img/pwd_after.png')}
+                            source={PWDRem?require('./img/pwd_after.png'):require('./img/pass_before.png')}
                             style={{width:20,height:20}}
                             resizeMode='stretch'/>
                     </TouchableOpacity>
@@ -71,7 +86,7 @@ class LoginPage extends React.Component {
                 <View style={styles.wrap}>
                     <CLButton
                         activeOpacity={0.8}
-                        onPress={() => this._handleLogin(account,pwd,remPWD)}
+                        onPress={() => this._handleLogin(account,pwd)}
                         disabled={!(account && pwd&&account.length==11)}>登录</CLButton>
                 </View>
                 <View style={styles.textContainer}>
@@ -88,19 +103,19 @@ class LoginPage extends React.Component {
         )
     }
 
-    //监听账号变化
+    //监听账号变化，即改变输入框内的值
     _handleAccountChange(text) {
         const {accountChange} = this.props.login;
         accountChange(text);
     }
 
-    //清楚账号
+    //清除账号
     _onClearAccount() {
         const {accountClear} = this.props.login;
         accountClear();
     }
 
-    //监听密码变化
+    //监听密码变化，即改变输入框内的值
     _handlePWDChange(text) {
         const {pwdChange} = this.props.login;
         pwdChange(text)
@@ -117,30 +132,37 @@ class LoginPage extends React.Component {
         const {changeEye} = this.props.login;
         changeEye(eyeOpen)
     }
-    //记住密码
-    _rememberTouch(remPWD){
+
+    //记住密码按钮
+    _rememberTouch(account, pwd, PWDRem) {
         const {rememberPWD} = this.props.login;
-        rememberPWD(remPWD);
+        rememberPWD(!PWDRem);
+        this._rememberPWD(account, pwd, !PWDRem);
     }
 
 
     //登录
-    async _handleLogin(account,pwd,remPWD) {
-        let md5Password = null;
-        NativeModules.Md5.getMd5(pwd)
-            .then((msg)=>{
-                md5Password = msg
-                if(__DEV__){
-                    console.log('LoginPage md5Password',md5Password);
-                }
-            }).catch((err)=>{
-            //handle err
-        });
+    async _handleLogin(account, pwd) {
         const {fetchApi} = this.props.global;//获取全局api方法
-        const res =await loginapi(fetchApi,account,md5Password,remPWD);//同步等待返回结果
+        const response = await loginapi(fetchApi, account, pwd);//同步等待返回结果
         const {login} = this.props.login;//获取action
-        login(res);//更新当前res状态
+        const {res} = login(response);//更新当前res状态
+        if (__DEV__) {
+            console.log('_handleLogin', res)//可以在当前页面处理结果，
+        }
     }
+
+    //储存密码
+    _rememberPWD(account, pwd, isRemember) {
+        if (isRemember) {
+            AsyncStorage.setItem('user', JSON.stringify({account: account, pwd: pwd, isRemember: isRemember}));
+        } else {
+            AsyncStorage.setItem('user', JSON.stringify({account: '', pwd: '', isRemember: isRemember}));
+        }
+        if (__DEV__) {
+            console.log('_rememberPWD', {account: account, pwd: pwd, isRemember: isRemember})
+        }
+    };
 }
 
 const styles = StyleSheet.create({

@@ -40,7 +40,7 @@ export function changeEye(eye) {
 export function rememberPWD(isRem) {
     return{
         type:types.PWDREMEMBER,
-        PWDRem:!isRem
+        PWDRem:isRem
     }
 }
 
@@ -50,3 +50,4 @@ export function login(res) {
         res:res
     }
 }
+
