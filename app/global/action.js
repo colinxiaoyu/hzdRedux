@@ -11,6 +11,8 @@ export function showLoading(isShow) {
         showLoading:isShow
     }
 }
+import DeviceInfo from 'react-native-device-info'
+const version = DeviceInfo.getVersion();
 
 export function fetchApi(url, req, config) {
     //默认参数
@@ -19,7 +21,8 @@ export function fetchApi(url, req, config) {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': window.token || ''
+            'Authorization': window.token || '',
+            "User-Agent":`"Android#${version}"`
         }
     };
 
@@ -43,7 +46,7 @@ export function fetchApi(url, req, config) {
     url = url.replace(/([^:])\/\//, '$1/');
 
     if (__DEV__) {
-        console.log('请求->', url, '\n', JSON.stringify(merge, null, 2));
+        console.log('请求->', url, '\n',request.headers,'\n', JSON.stringify(merge, null, 2));
     }
 
     return (dispatch)=> new Promise((resolve, reject) => {

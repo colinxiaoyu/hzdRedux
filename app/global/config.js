@@ -3,11 +3,11 @@
  */
 
 export const config = {
-  VERSION: '',
+  VERSION: '2.0.3',
   ANDROID_RELEASE_TIME: 1476798884845,
   IOS_RELEASE_TIME: 1476798884845,
   HOST: 'http://hzdapp.huizhongshengshi.com/',//正式环境
-  // HOST = 'http://10.10.16.193:8080/api-hzd',//测试环境
+  // HOST : 'http://10.10.16.193:8080/api-hzd',//测试环境
   
   //网络超时
   HTTP_TIME_OUT: 60,

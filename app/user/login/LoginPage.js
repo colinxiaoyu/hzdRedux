@@ -146,10 +146,13 @@ class LoginPage extends React.Component {
         const {fetchApi} = this.props.global;//获取全局api方法
         const response = await loginapi(fetchApi, account, pwd);//同步等待返回结果
         const {login} = this.props.login;//获取action
-        const {res} = login(response);//更新当前res状态
-        if (__DEV__) {
-            console.log('_handleLogin', res)//可以在当前页面处理结果，
-        }
+        login(response).then(response=>{
+            if(response.data.token){
+                const token = response.data.token;
+                window.token = token;
+                AsyncStorage.setItem('kstore@data', JSON.stringify(response));
+            }
+        });//更新当前res状态
     }
 
     //储存密码
