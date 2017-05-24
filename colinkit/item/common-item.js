@@ -3,8 +3,10 @@
  */
 import React from 'react';
 import {
-    StyleSheet, TouchableOpacity, style, Text,Image
+    StyleSheet, TouchableOpacity, style, Text,Image,Dimensions,View
 } from 'react-native';
+
+const {width, height}=Dimensions.get('window');
 
 class CommonItem extends React.PureComponent {
 
@@ -19,26 +21,32 @@ class CommonItem extends React.PureComponent {
             <TouchableOpacity
                 onPress={()=>this.props.onPress()}
                 style={styles.itemContainer}>
-                <Image style={styles.itemImage}
-                       resizeMode="stretch"
-                       source={this.props.icon}/>
+                <View style={styles.innerContainer}>
+                    <Image style={styles.itemImage}
+                           resizeMode="stretch"
+                           source={this.props.icon}/>
 
-                <Text style={styles.itemText}>{this.props.title}</Text>
-                <Image style={styles.btnBack}
-                       source={require('./img/btn_more.png')}
-                       resizeMode="stretch"/>
+                    <Text style={styles.itemText}>{this.props.title}</Text>
+                    <Image style={styles.btnBack}
+                           source={require('./img/btn_more.png')}
+                           resizeMode="stretch"/>
+                </View>
             </TouchableOpacity>)
     }
 }
 const styles = StyleSheet.create({
     itemContainer: {
+        width:width,
+        height: 70,
+        backgroundColor: 'white'
+    },
+    innerContainer:{
         flexDirection: 'row',
-        paddingLeft: 10,
+        marginLeft: 10,
         height: 70,
         borderBottomColor: '#BFBFBF',
         borderBottomWidth: StyleSheet.hairlineWidth,
         alignItems: 'center',
-        backgroundColor: 'white'
     },
 
     itemImage: {

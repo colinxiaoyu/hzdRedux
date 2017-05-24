@@ -6,8 +6,10 @@
  */
 import React from 'react';
 import {
-    StyleSheet, TouchableOpacity, style, Text
+    StyleSheet, TouchableOpacity, style, Text,Image,Dimensions,View
 } from 'react-native';
+
+const {width, height}=Dimensions.get('window');
 
 class VariableItem extends React.PureComponent {
 
@@ -22,26 +24,33 @@ class VariableItem extends React.PureComponent {
             <TouchableOpacity
                 onPress={()=>this.props.onPress()}
                 style={styles.itemContainer}>
-                <Image style={styles.itemImage}
-                       resizeMode="stretch"
-                       source={this.props.icon}/>
+                <View style={styles.innerContainer}>
+                    <Image style={styles.itemImage}
+                           resizeMode="stretch"
+                           source={this.props.icon}/>
 
-                <Text style={styles.itemText}>{this.props.title}</Text>
-                <Image style={styles.btnBack}
-                       source={require('./img/btn_more.png')}
-                       resizeMode="stretch"/>
+                    <Text style={styles.itemText}>{this.props.title}</Text>
+                    <Text style={styles.promptText}>{this.props.promptText}</Text>
+                    <Image style={styles.btnBack}
+                           source={require('./img/btn_more.png')}
+                           resizeMode="stretch"/>
+                </View>
             </TouchableOpacity>)
     }
 }
 const styles = StyleSheet.create({
     itemContainer: {
+        width:width,
+        height: 70,
+        backgroundColor: 'white'
+    },
+    innerContainer:{
         flexDirection: 'row',
-        paddingLeft: 10,
+        marginLeft: 10,
         height: 70,
         borderBottomColor: '#BFBFBF',
         borderBottomWidth: StyleSheet.hairlineWidth,
         alignItems: 'center',
-        backgroundColor: 'white'
     },
 
     itemImage: {
@@ -54,6 +63,11 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingLeft: 10,
         textAlign: 'left',
+    },
+    promptText:{
+        fontSize: 12,
+        paddingRight:5,
+        textAlign:'center'
     },
     btnBack: {
         marginRight: 20,

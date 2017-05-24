@@ -8,7 +8,7 @@ import dismissKeyboard from 'dismissKeyboard';
 import TextInputState from 'TextInputState';
 
 
-class QMFormContainer extends React.Component{
+class CLFormContainer extends React.Component{
 
 
   render() {
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default QMFormContainer;
+export default CLFormContainer;
