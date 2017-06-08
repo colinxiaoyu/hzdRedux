@@ -1,6 +1,26 @@
 /**
  * Created by Colin on 2017/5/18.
+ * 和react-native-scrollable-tab-view连用
  */
+
+/**
+ * 例子：<ScrollableTabView
+ renderTabBar={() =>
+                    <CLTabBar
+                        tabNames={tabTitles}
+                        tabIconNames={tabIcons}
+                        selectedTabIconNames={tabSelectedIcon}
+                    />
+                }
+ tabBarPosition='bottom'
+ locked
+ scrollWithoutAnimation
+ >
+ <Main tabLabel="main" />
+ <Dynamic tabLabel="huizhong"/>
+ <User tabLabel="user"/>
+ </ScrollableTabView>
+ **/
 import React from 'react';
 import {
     StyleSheet,
