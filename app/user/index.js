@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {View,StyleSheet} from 'react-native';
-import LoginPage from './login/LoginPage'
+import LoginPage from './../login/LoginPage'
 import LogedPage from './loged/LogedPage'
 
 class User extends React.Component{
@@ -13,7 +13,9 @@ class User extends React.Component{
     }
 
     render(){
-       
+       if(__DEV__){
+           console.log('User render',window.token);
+       }
         return(
             <View style = {styles.container}>
                 {

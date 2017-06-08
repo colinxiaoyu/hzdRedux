@@ -3,7 +3,10 @@
  */
 import React from 'react';
 import {CLItem, CLFormContainer} from 'colinkit';
-import {ToastAndroid, StyleSheet, Image, View, Text, TouchableOpacity, Dimensions} from 'react-native';
+import {
+    ToastAndroid, StyleSheet, Image, View, Text, TouchableOpacity, Dimensions, AsyncStorage
+} from 'react-native';
+import {logout} from './webapi'
 
 const titleBackgroud = require('./img/title_backgroud.png');
 const titleAvaster = require('./img/ic_mine_user_title.png');
@@ -11,6 +14,11 @@ const titleEmail = require('./img/ic_mine_email.png');
 const {width, height}=Dimensions.get('window');
 
 class LogedPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this._logout = this._logout.bind(this);
+    }
+
     render() {
         return (
             <CLFormContainer>
@@ -59,12 +67,37 @@ class LogedPage extends React.Component {
                     }}/>
                 </CLItem>
                 <TouchableOpacity style={styles.logoutContainer}
-                                  onPress={this._logout}>
+                                  onPress={()=>this._logout()}>
                     <Text style={styles.logoutText}>安全退出</Text>
                 </TouchableOpacity>
                 <Text style={styles.versionText}>版本号：V2.02</Text>
             </CLFormContainer>
         )
+    }
+
+    async _logout() {
+        let res = null;
+        await logout().then(response=> {
+            res = response;
+            if (__DEV__) {
+                console.log('_logout', res)
+            }
+        }).catch(err=> {
+
+        });
+        
+        AsyncStorage.removeItem('kstore@data');
+        window.token = '';
+
+        AsyncStorage.getItem('kstore@data').then(data=>{
+            if(__DEV__){
+                console.log('_logout验证',data);
+            }
+        }).catch(err=>{
+            if(__DEV__){
+                console.log('_logout验证',err);
+            }
+        });
     }
 }
 
@@ -115,8 +148,8 @@ const styles = StyleSheet.create({
         width: width,
         backgroundColor: 'white',
         marginVertical: 10,
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     logoutText: {
         fontSize: 14,

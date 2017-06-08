@@ -119,7 +119,7 @@ const Fetch = (url, req, config) => {
                 clearTimeout(httpTimeout);
 
                 if (cnf.showLoading) {
-                    // dispatch(showLoading(cnf.showLoading))
+                    msg.emit('ModalLoading:hide');
                 }
 
                 // msg.emit('app:tip', '您的网络不给力:(');

@@ -3,8 +3,6 @@
  */
 import {Config,CLFetch} from 'colinkit';
 import {NativeModules} from 'react-native';
-import DeviceInfo from 'react-native-device-info'
-const version = DeviceInfo.getVersion();
 
 export function loginapi(account,pwd) {
     let form = new FormData();
