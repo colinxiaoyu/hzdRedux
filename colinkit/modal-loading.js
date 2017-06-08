@@ -3,16 +3,45 @@
  * 用于ajax的loading效果
  */
 import React from 'react';
+import {msg} from 'iflux-native';
 import {View, Platform, StyleSheet, ActivityIndicator} from 'react-native';
 
 class CLModalLoading extends React.Component {
-    
+    constructor(props){
+        super(props);
+        this.state = {
+            display: false
+        }
+    }
+
+    componentDidMount(){
+        msg
+            .on('ModalLoading:hide', this._handleDisplay.bind(this, false))
+            .on('ModalLoading:show', this._handleDisplay.bind(this, true));
+    }
+
+    componentWillUnmount(){
+        msg
+            .removeListener('ModalLoading:hide')
+            .removeListener('ModalLoading:show');
+    }
+
     render() {
+        if (!this.state.display) {
+            return null;
+        }
+
         return (
             <View style={styles.overlay}>
                 <ActivityIndicator color="#CCCCCC" size="large" style={styles.progress}/>
             </View>
         );
+    }
+
+    _handleDisplay(display){
+        this.setState({
+            display: display
+        });
     }
 }
 

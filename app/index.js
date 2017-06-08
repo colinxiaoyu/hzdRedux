@@ -7,6 +7,7 @@ import {Provider} from 'react-redux';
 import Global from './global'
 import store from './store/store';
 
+
 export default class App extends React.Component {
 
     componentDidMount(){
