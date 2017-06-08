@@ -3,7 +3,9 @@
  */
 import { combineReducers } from 'redux';
 import LoginReducer from '../user/login/reducer';
+import MainReducer from '../main/reducer'
 
 export default rootReducer = combineReducers({
-    LoginReducer
+    LoginReducer,
+    MainReducer,
 })

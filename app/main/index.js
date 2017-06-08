@@ -12,44 +12,36 @@ import {
     ToastAndroid,
     TouchableOpacity
 } from 'react-native'
-import {CLHeader} from 'colinkit'
+import {CLHeader} from 'colinkit';
+import * as MainAction from './action'
+
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
+
 
 const {width, height}= Dimensions.get('window');
 
 class Main extends React.Component{
     constructor(props) {
         super(props);
+        this._handleScroll = this._handleScroll.bind(this);
 
     }
-
-    _DetialData(catagory, detial, quota, materia) {
-        return (
-            <View style={styles.detialContainer}>
-                <Text style={styles.catagory}>{catagory}</Text>
-                <View style={styles.cutLine}/>
-                <Text style={styles.detial}>{detial}</Text>
-                <Text style={styles.quota}>{quota}</Text>
-                <Text style={styles.materia}>{materia}</Text>
-            </View>
-        )
-    }
-
-
-    _applyTouch = ()=> {
-        // this.props.navigator.push({
-        //     component: RealNameApplicationPage
-        // });
-    }
-        ;
 
     render() {
+        const {color} = this.props.MainReducer;
+        if(__DEV__){
+            console.log('main render',`rgba(0,85,255,${color})`)
+        }
         return (
             <View style={{flex:1}}>
                 <CLHeader
-                    title="汇众贷">
+                    title="汇众贷"
+                    style={{backgroundColor:`rgba(0,85,255,${color})`}}>
                 </CLHeader>
                 <ScrollView style={styles.container}
-                            showsVerticalScrollIndicator={false}>
+                            showsVerticalScrollIndicator={false}
+                            onScroll={this._handleScroll}>
                     <Image
                         resizeMode="stretch"
                         source={require('./img/banner.png')}
@@ -97,6 +89,44 @@ class Main extends React.Component{
                 </ScrollView>
             </View>
         )
+    }
+
+    _DetialData(catagory, detial, quota, materia) {
+        return (
+            <View style={styles.detialContainer}>
+                <Text style={styles.catagory}>{catagory}</Text>
+                <View style={styles.cutLine}/>
+                <Text style={styles.detial}>{detial}</Text>
+                <Text style={styles.quota}>{quota}</Text>
+                <Text style={styles.materia}>{materia}</Text>
+            </View>
+        )
+    }
+
+
+    _applyTouch = ()=> {
+        // this.props.navigator.push({
+        //     component: RealNameApplicationPage
+        // });
+    };
+
+    _handleScroll(e){
+        //View滑动的拉动距离
+        const offsetY = e.nativeEvent.contentInset.top + e.nativeEvent.contentOffset.y;
+        this._changeTopBarStyle(offsetY);
+
+    }
+
+    _changeTopBarStyle(offsetY){
+        //在banner区域内,背景色渐变,超过banner的距离后,变为固定值
+        const {changeTitleColor} = this.props.main;
+        if (offsetY >= 10) {
+            let floatNum = 1 + (offsetY) / 14;
+            floatNum = floatNum > 9 ? 9 : floatNum;
+            changeTitleColor(floatNum / 13);
+        } else if (offsetY <= 5) {
+            changeTitleColor(0.1);
+        }
     }
 }
 const styles = StyleSheet.create({
@@ -190,4 +220,14 @@ const styles = StyleSheet.create({
         lineHeight: 35
     }
 });
-export default Main;
+
+const mapStateToProps = (state)=>
+    ({
+        MainReducer: state.MainReducer
+    });
+
+const mapActionCreators = (dispatch)=>({
+    main: bindActionCreators(MainAction, dispatch),
+});
+
+export default connect(mapStateToProps,mapActionCreators)(Main);
