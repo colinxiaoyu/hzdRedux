@@ -9,6 +9,8 @@ import CLButton from './button';
 import CLModalLoading from './modal-loading';
 import CLTip from './tip';
 import CLItem from './item';
+import Config from './config';
+import CLFetch from './fetchApi'
 
 
 export {
@@ -19,5 +21,7 @@ export {
     CLButton,
     CLModalLoading,
     CLTip,
-    CLItem
+    CLItem,
+    Config,
+    CLFetch,
 }

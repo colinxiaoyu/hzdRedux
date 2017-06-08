@@ -2,7 +2,7 @@
  * Created by Colin on 2017/5/18.
  */
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, Image, AsyncStorage} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, Image, AsyncStorage,NativeModules} from 'react-native';
 import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 
 import {bindActionCreators} from 'redux';
@@ -19,7 +19,7 @@ class LoginPage extends React.Component {
         this._handlePWDChange = this._handlePWDChange.bind(this);
         this._onClearPWD = this._onClearPWD.bind(this);
         this._handleEye = this._handleEye.bind(this);
-        this._handleLogin = this._handleLogin.bind(this);
+        this._handleLoginMD5PWD = this._handleLoginMD5PWD.bind(this);
         this._rememberTouch = this._rememberTouch.bind(this);
     }
 
@@ -86,7 +86,7 @@ class LoginPage extends React.Component {
                 <View style={styles.wrap}>
                     <CLButton
                         activeOpacity={0.8}
-                        onPress={() => this._handleLogin(account,pwd)}
+                        onPress={() => this._handleLoginMD5PWD(account,pwd)}
                         disabled={!(account && pwd&&account.length==11)}>登录</CLButton>
                 </View>
                 <View style={styles.textContainer}>
@@ -142,17 +142,25 @@ class LoginPage extends React.Component {
 
 
     //登录
-    async _handleLogin(account, pwd) {
-        const {fetchApi} = this.props.global;//获取全局api方法
-        const response = await loginapi(fetchApi, account, pwd);//同步等待返回结果
-        const {login} = this.props.login;//获取action
-        login(response).then(response=>{
-            if(response.data.token){
-                const token = response.data.token;
-                window.token = token;
-                AsyncStorage.setItem('kstore@data', JSON.stringify(response));
-            }
-        });//更新当前res状态
+     _handleLoginMD5PWD(account, pwd) {
+       let md5Password = null;
+       //这个有点坑，需记住Promise是异步操作，输出log日志才知道，密码为空
+       NativeModules.Md5.getMd5(pwd)
+           .then((msg)=>{
+               md5Password = msg;
+               this._handleLogin(account,md5Password)
+           }).catch(err2=>{
+           if(__DEV__){
+               console.log('loginapi  加密密码出错',err2.json());
+           }
+       });
+    }
+    //比较坑的地方，promis中不能用 async 方法 await ，如果要做同步将方法抽出来
+    async _handleLogin(account, pwd){
+        const response = await loginapi(account, pwd);//同步等待返回结果
+        if(__DEV__){
+            console.log('_handleLoginMD5PWD',response)
+        }
     }
 
     //储存密码

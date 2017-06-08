@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "ios": "node ./node_modules/react-native/local-cli/cli.js bundle --entry-file=index.ios.js --platform=ios --dev=false --minify=true --bundle-output=./ios/main.jsbundle",
+    "android": "node ./node_modules/react-native/local-cli/cli.js bundle --entry-file=index.android.js --platform=android --dev=false --minify=true --bundle-output=./android/app/src/main/assets/index.android.bundle --assets-dest=android/app/src/main/res/"
   },
   "dependencies": {
+    "iflux-native": "^1.0.9",
     "react": "16.0.0-alpha.6",
     "react-native": "0.44.0",
     "react-native-device-info": "^0.10.2",

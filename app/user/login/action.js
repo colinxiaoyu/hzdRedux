@@ -44,10 +44,3 @@ export function rememberPWD(isRem) {
     }
 }
 
-export function login(res) {
-    return{
-        type:types.LOGIN,
-        res:res
-    }
-}
-

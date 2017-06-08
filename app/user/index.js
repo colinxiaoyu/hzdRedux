@@ -8,13 +8,26 @@ import LogedPage from './loged/LogedPage'
 
 class User extends React.Component{
 
+    componetWillMount(){
+        // AsyncStorage.getItem('kstore@data').then(items=> {
+        //     if (items) {
+        //         const user = JSON.parse(items);
+        //         this._handleAccountChange(user.account);
+        //         this._handlePWDChange(user.pwd);
+        //         const {rememberPWD} = this.props.login;
+        //         rememberPWD(user.isRemember);
+        //     }
+        //     if (__DEV__) {
+        //         console.log('LoginPage componentWillMount', items)
+        //     }
+        // })
+    }
+
     render(){
-        if(__DEV__){
-            console.log('User render', this.props)
-        }
+       
         return(
             <View style = {styles.container}>
-                <LogedPage  {...this.props}/>
+                <LoginPage/>
             </View>
         )
     }

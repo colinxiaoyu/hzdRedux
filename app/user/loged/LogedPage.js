@@ -114,14 +114,13 @@ const styles = StyleSheet.create({
         height: 60,
         width: width,
         backgroundColor: 'white',
-        marginVertical: 10
+        marginVertical: 10,
+        alignItems:'center',
+        justifyContent:'center'
     },
     logoutText: {
         fontSize: 14,
         textAlign: 'center',
-        height: 60,
-        width: width,
-        lineHeight: 35
     },
     versionText: {
         fontSize: 10,
