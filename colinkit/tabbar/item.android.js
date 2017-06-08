@@ -9,7 +9,8 @@ import React from 'react';
 import {View, TouchableOpacity, Text, Platform, Image, StyleSheet} from 'react-native';
 import Badge from './badge.android';
 
-const renderColor = '#6F00D2';
+//点击后，渲染颜色
+const renderColor = '#4B0091';
 
 export default class TabBarItem extends React.PureComponent{
 

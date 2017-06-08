@@ -8,7 +8,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 
 
-class ChildComponent extends React.Component{
+class ChildComponent extends React.PureComponent{
 
   static defaultProps ={
     selected: false,

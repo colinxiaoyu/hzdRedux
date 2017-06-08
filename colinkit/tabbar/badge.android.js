@@ -9,7 +9,7 @@ import {View, Text, StyleSheet} from 'react-native';
 /**
  * badge组件
  */
-export default class  Badge extends React.Component{
+export default class  Badge extends React.PureComponent{
 
   static defaultProps ={
     badge: 0,
