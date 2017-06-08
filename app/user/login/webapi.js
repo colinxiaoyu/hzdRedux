@@ -13,12 +13,6 @@ export function loginapi(account,pwd) {
     let request = {
         method: 'POST',
         body: form,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
-            'Authorization': window.token || '',
-            "User-Agent":`"Android#${version}"`
-        },
     };
     return CLFetch(`${Config.HOST}/api/100/user/logon`,request, {showLoading: true});
 }

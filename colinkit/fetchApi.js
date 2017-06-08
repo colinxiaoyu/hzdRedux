@@ -13,7 +13,7 @@ const Fetch = (url, req, config) => {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             'Authorization': window.token || '',
             "User-Agent":`"Android#${version}"`
         }

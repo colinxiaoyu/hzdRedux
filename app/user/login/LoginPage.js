@@ -2,7 +2,7 @@
  * Created by Colin on 2017/5/18.
  */
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity, Text, Image, AsyncStorage,NativeModules} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, Image, AsyncStorage, NativeModules} from 'react-native';
 import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 
 import {bindActionCreators} from 'redux';
@@ -34,6 +34,10 @@ class LoginPage extends React.Component {
             }
             if (__DEV__) {
                 console.log('LoginPage componentWillMount', items)
+            }
+        }).catch(err2=>{
+            if (__DEV__) {
+                console.log('LoginPage componentWillMount', err2)
             }
         })
     }
@@ -86,7 +90,7 @@ class LoginPage extends React.Component {
                 <View style={styles.wrap}>
                     <CLButton
                         activeOpacity={0.8}
-                        onPress={() => this._handleLoginMD5PWD(account,pwd)}
+                        onPress={() => this._handleLoginMD5PWD(account,pwd, PWDRem)}
                         disabled={!(account && pwd&&account.length==11)}>登录</CLButton>
                 </View>
                 <View style={styles.textContainer}>
@@ -133,34 +137,43 @@ class LoginPage extends React.Component {
         changeEye(eyeOpen)
     }
 
-    //记住密码按钮
+    //记住密码按钮 改变状态
     _rememberTouch(account, pwd, PWDRem) {
         const {rememberPWD} = this.props.login;
         rememberPWD(!PWDRem);
-        this._rememberPWD(account, pwd, !PWDRem);
     }
 
 
-    //登录
-     _handleLoginMD5PWD(account, pwd) {
-       let md5Password = null;
-       //这个有点坑，需记住Promise是异步操作，输出log日志才知道，密码为空
-       NativeModules.Md5.getMd5(pwd)
-           .then((msg)=>{
-               md5Password = msg;
-               this._handleLogin(account,md5Password)
-           }).catch(err2=>{
-           if(__DEV__){
-               console.log('loginapi  加密密码出错',err2.json());
-           }
-       });
+    //登录 1、MD5加密处理，2、调用登录api
+    _handleLoginMD5PWD(account, pwd, isRemember) {
+        let md5Password = null;
+        //这个有点坑，需记住Promise是异步操作，输出log日志才知道，密码为空
+        NativeModules.Md5.getMd5(pwd)
+            .then((msg)=> {
+                md5Password = msg;
+                this._handleLogin(account, md5Password, isRemember);
+                this._rememberPWD(account, pwd, isRemember);
+            }).catch(err2=> {
+            if (__DEV__) {
+                console.log('loginapi  加密密码出错', err2.json());
+            }
+        });
     }
+
     //比较坑的地方，promis中不能用 async 方法 await ，如果要做同步将方法抽出来
-    async _handleLogin(account, pwd){
-        const response = await loginapi(account, pwd);//同步等待返回结果
-        if(__DEV__){
-            console.log('_handleLoginMD5PWD',response)
+    async _handleLogin(account, pwd, isRemember) {
+        try {
+            const response = await loginapi(account, pwd);//同步等待返回结果
+            if (__DEV__) {
+                console.log('_handleLoginMD5PWD', response)
+            }
+            window.token = response.data.token
+            AsyncStorage.setItem('kstore@data', JSON.stringify(response));
+           
+        } catch (err) {
+
         }
+
     }
 
     //储存密码
