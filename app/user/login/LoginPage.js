@@ -169,7 +169,7 @@ class LoginPage extends React.Component {
             }
             window.token = response.data.token
             AsyncStorage.setItem('kstore@data', JSON.stringify(response));
-           
+            this._renderParent();
         } catch (err) {
 
         }
@@ -187,6 +187,12 @@ class LoginPage extends React.Component {
             console.log('_rememberPWD', {account: account, pwd: pwd, isRemember: isRemember})
         }
     };
+
+    //重新渲染父组件
+    _renderParent(){
+        const {changePage} = this.props.user;
+        changePage('LogedPage')
+    }
 }
 
 const styles = StyleSheet.create({

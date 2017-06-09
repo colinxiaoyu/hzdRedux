@@ -20,6 +20,9 @@ class LogedPage extends React.Component {
     }
 
     render() {
+        if(__DEV__){
+            console.log('LogedPage render', this.props)
+        }
         return (
             <CLFormContainer>
                 <Image
@@ -98,6 +101,12 @@ class LogedPage extends React.Component {
                 console.log('_logout验证',err);
             }
         });
+        this._renderParent();
+    }
+    //重新渲染父组件
+    _renderParent(){
+        const {changePage} = this.props.user;
+        changePage('LoginPage')
     }
 }
 
