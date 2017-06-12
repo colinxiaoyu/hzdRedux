@@ -101,7 +101,7 @@ const Fetch = (url, req, config) => {
                             msg.emit('tokenInvalid');
                         }
                         //token过期或者校验错误,将token清除
-                        AsyncStorage.setItem('kstore@data', '{"token":""}');
+                        AsyncStorage.removeItem('kstore@data');
                         window.token = '';
                     } else {
                         if (res.code === 'K-000001') {

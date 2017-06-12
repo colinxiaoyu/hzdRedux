@@ -12,6 +12,7 @@ import CLItem from './item';
 import Config from './config';
 import CLFetch from './fetchApi';
 import CLTabBar from './tabbar'
+import CLUnAuth from './unauth'
 
 
 export {
@@ -25,4 +26,5 @@ export {
     CLItem,
     Config,
     CLFetch,
+    CLUnAuth,
 }

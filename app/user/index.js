@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {View,StyleSheet} from 'react-native';
-import LoginPage from './login/LoginPage'
+import LoginPage from '../login/index'
 import LogedPage from './loged/LogedPage'
 import * as UserAction from './action';
 import {bindActionCreators} from 'redux';
