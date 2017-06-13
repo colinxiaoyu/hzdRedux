@@ -18,6 +18,7 @@ let lastBackPressTime = 0;
 
 import Login from  '../login' //登录
 import Home from '../home'//主页
+import RealNameApplication from '../main/realname-application'
 
 
 /**
@@ -27,6 +28,7 @@ import Home from '../home'//主页
 const routeMapper = {
     Home: unAuth(Home, 'Home'),
     Login: unAuth(Login, 'Login'),
+    RealNameApplication,
 };
 class Root extends React.Component {
 

@@ -117,7 +117,7 @@ export default class Header extends React.Component{
     if (this.props.onLeftMenuPress) {
       this.props.onLeftMenuPress();
     } else {
-      // msg.emit('route:backToLast');
+      this.props.renderLeft();
     }
   }
 }
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: isAndroid ? 50 : 60,
     paddingTop: isAndroid ? 0 : 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#4A4AFF',
     borderBottomColor: 'lightgray',
     borderBottomWidth: 1 / PixelRatio.get()
   },
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titleText: {
     color: '#333',

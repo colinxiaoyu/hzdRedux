@@ -15,6 +15,8 @@ import {
 import {CLHeader} from 'colinkit';
 import * as MainAction from './action'
 
+import {msg} from 'iflux-native';
+
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
@@ -31,13 +33,13 @@ class Main extends React.Component{
     render() {
         const {color} = this.props.MainReducer;
         if(__DEV__){
-            console.log('main render',`rgba(0,85,255,${color})`)
+            console.log('main render',`rgba(74,74,255,${color})`)
         }
         return (
             <View style={{flex:1}}>
                 <CLHeader
                     title="汇众贷"
-                    style={{backgroundColor:`rgba(0,85,255,${color})`}}>
+                    style={{backgroundColor:`rgba(74,74,255,${color})`}}>
                 </CLHeader>
                 <ScrollView style={styles.container}
                             showsVerticalScrollIndicator={false}
@@ -105,9 +107,9 @@ class Main extends React.Component{
 
 
     _applyTouch = ()=> {
-        // this.props.navigator.push({
-        //     component: RealNameApplicationPage
-        // });
+        msg.emit('route:goToNext', {
+            sceneName: 'RealNameApplication',
+        });
     };
 
     _handleScroll(e){

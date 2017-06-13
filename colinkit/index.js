@@ -11,9 +11,10 @@ import CLTip from './tip';
 import CLItem from './item';
 import Config from './config';
 import CLFetch from './fetchApi';
-import CLTabBar from './tabbar'
-import CLUnAuth from './unauth'
-
+import CLTabBar from './tabbar';
+import CLUnAuth from './unauth';
+import CLDialog from './dialog';
+import CLBottomBtn from './bottomBtn'
 
 export {
     CLTabBar,
@@ -27,4 +28,6 @@ export {
     Config,
     CLFetch,
     CLUnAuth,
+    CLDialog,
+    CLBottomBtn
 }
