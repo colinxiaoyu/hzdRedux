@@ -5,6 +5,8 @@ import React from 'react';
 import {View, StyleSheet, TouchableOpacity, Text, Image, AsyncStorage, NativeModules} from 'react-native';
 import {CLHeader, CLForm, CLFormContainer, CLButton} from 'colinkit';
 
+import {msg} from 'iflux-native';
+
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as LoginAction from './action';
@@ -169,11 +171,21 @@ class LoginPage extends React.Component {
             }
             window.token = response.data.token
             AsyncStorage.setItem('kstore@data', JSON.stringify(response));
-            this._renderParent();
+            this._goNextPage();
         } catch (err) {
 
         }
+    }
 
+    _goNextPage(){
+        const nextSceneName = this.props.nextSceneName;
+        if(__DEV__){
+            console.log('_goNextPage',nextSceneName)
+        }
+        msg.emit('route:replaceRoute',
+            {
+                sceneName: nextSceneName,
+            })
     }
 
     //储存密码
@@ -187,12 +199,6 @@ class LoginPage extends React.Component {
             console.log('_rememberPWD', {account: account, pwd: pwd, isRemember: isRemember})
         }
     };
-
-    //重新渲染父组件
-    _renderParent(){
-        const {changePage} = this.props.user;
-        changePage('LogedPage')
-    }
 }
 
 const styles = StyleSheet.create({

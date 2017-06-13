@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import {
-    View, StyleSheet, BackAndroid, Platform,InteractionManager,StatusBar
+    View, StyleSheet, BackHandler, Platform,InteractionManager,StatusBar
 } from 'react-native';
 import StaticRenderer from 'StaticRenderer';
 import {Navigator} from 'react-native-deprecated-custom-components';
@@ -76,7 +76,7 @@ class Root extends React.Component {
         
         //监听Android的实体物理键的返回
         if (Platform.OS === 'android') {
-            BackAndroid.addEventListener('hardwareBackPress', this._handleBackAndroid);
+            BackHandler.addEventListener('hardwareBackPress', this._handleBackAndroid);
         }
     }
 
@@ -98,7 +98,7 @@ class Root extends React.Component {
             .removeListener('removeBackAndroid',this._removeBackAndroid)
             .removeListener('addBackAndroid',this._addBackAndroid);
         if (Platform.OS === 'android') {
-            BackAndroid.removeEventListener('hardwareBackPress', this._handleBackAndroid);
+            BackHandler.removeEventListener('hardwareBackPress', this._handleBackAndroid);
         }
     }
 
@@ -383,7 +383,6 @@ class Root extends React.Component {
         if (this._navigator.getCurrentRoutes().length === 1) {
             var currentTime = Date.now();
             if (currentTime - lastBackPressTime > 4000) {
-                //ToastAndroid.show('再次点击，退出应用。', ToastAndroid.SHORT);
                 msg.emit('app:tip', '再次点击，退出应用。');
                 lastBackPressTime = currentTime;
                 return true;

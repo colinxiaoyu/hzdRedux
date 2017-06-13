@@ -4,7 +4,7 @@
 import * as type from './actionType'
 
 const initState = {
-    currentPage: 'Login'
+    currentState: 'Login'
 };
 
 export default function UserReducer(state = initState, action) {
@@ -12,7 +12,7 @@ export default function UserReducer(state = initState, action) {
         case type.CHANGEPAGE:
             return Object.assign(
                 {}, state, {
-                    currentPage: action.currentPage
+                    currentState: action.currentState
                 });
             break;
         default:

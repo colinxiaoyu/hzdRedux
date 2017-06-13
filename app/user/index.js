@@ -5,6 +5,8 @@ import React from 'react';
 import {
     ToastAndroid, StyleSheet, Image, View, Text, TouchableOpacity, Dimensions, AsyncStorage
 } from 'react-native';
+import {Navigator} from 'react-native-deprecated-custom-components';
+
 import {logout} from './webapi'
 import {CLItem, CLFormContainer} from 'colinkit';
 
@@ -14,40 +16,37 @@ import * as UserAction from './action';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
+import {msg} from 'iflux-native';
+
+
 const titleBackgroud = require('./img/title_backgroud.png');
 const titleAvaster = require('./img/ic_mine_user_title.png');
 const titleEmail = require('./img/ic_mine_email.png');
 const {width, height}=Dimensions.get('window');
 
-class User extends React.Component{
+class User extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this._handleContent = this._handleContent.bind(this);
         this._logout = this._logout.bind(this);
     }
 
-    componetWillMount(){
-        
+    componetWillMount() {
+
     }
 
-    render(){
-       if(__DEV__){
-           console.log('User render',this.props);
-       }
-        const {currentPage} = this.props.UserReducer;
-        return(
-            <View style = {styles.container}>
-                {
-                    this._handleContent(currentPage)
-                }
-            </View>
+    render() {
+        if (__DEV__) {
+            console.log('User render', this.props);
+        }
+        return (
+            this._renderContent()
         )
     }
 
-    _handleContent(currentPage){
-        if(window.token&&currentPage=='LogedPage'){
-            return (<CLFormContainer>
+    _renderContent() {
+        return (window.token ?
+            <CLFormContainer>
                 <Image
                     style={styles.titleImage}
                     source={titleBackgroud}
@@ -70,26 +69,26 @@ class User extends React.Component{
                         icon={require('./img/ic_myprogress.png')}
                         title='我的进度'
                         onPress={()=>{
-                            ToastAndroid.show('我的进度',2000);
+                            msg.emit('app:tip', '我的进度');
                     }}/>
                     <CLItem.CLVariableItem
                         icon={require('./img/ic_mine_realname.png')}
                         title='实名认证'
                         promptText="未认证"
                         onPress={()=>{
-                            ToastAndroid.show('实名认证',2000);
+                        msg.emit('app:tip', '实名认证');
                     }}/>
                     <CLItem.CLCommonItem
                         icon={require('./img/ic_mine_update.png')}
                         title='修改密码'
                         onPress={()=>{
-                            ToastAndroid.show('修改密码',2000);
+                             msg.emit('app:tip', '修改密码');
                     }}/>
                     <CLItem.CLCommonItem
                         icon={require('./img/ic_about_us.png')}
                         title='关于我们'
                         onPress={()=>{
-                            ToastAndroid.show('关于我们',2000);
+                            msg.emit('app:tip', '关于我们');
                     }}/>
                 </CLItem>
                 <TouchableOpacity style={styles.logoutContainer}
@@ -97,10 +96,31 @@ class User extends React.Component{
                     <Text style={styles.logoutText}>安全退出</Text>
                 </TouchableOpacity>
                 <Text style={styles.versionText}>版本号：V2.02</Text>
-            </CLFormContainer>)
-        }else {
-            return(<LoginPage {...this.props}/>)
-        }
+            </CLFormContainer>
+            :
+            <Image
+                style={styles.titleImage}
+                source={titleBackgroud}
+                resizeMode="stretch">
+                <TouchableOpacity
+                    onPress={()=>{this._goLoginPage();}}>
+                    <Image
+                        style={styles.titleAvaster}
+                        resizeMode="stretch"
+                        source={titleAvaster}/>
+                    <Text style={styles.titleContainer}>{'登录/注册'}</Text>
+                </TouchableOpacity>
+            </Image>)
+    }
+
+    _goLoginPage() {
+        window.selectedTab = 'User';
+        msg.emit('route:goToNext',
+            {
+                sceneName: 'Login',
+                sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+                nextSceneName: 'Home'
+            })
     }
 
     async _logout() {
@@ -117,34 +137,35 @@ class User extends React.Component{
         AsyncStorage.removeItem('kstore@data');
         window.token = '';
 
-        AsyncStorage.getItem('kstore@data').then(data=>{
-            if(__DEV__){
-                console.log('_logout验证',data);
+        AsyncStorage.getItem('kstore@data').then(data=> {
+            if (__DEV__) {
+                console.log('_logout验证', data);
             }
-        }).catch(err=>{
-            if(__DEV__){
-                console.log('_logout验证',err);
+        }).catch(err=> {
+            if (__DEV__) {
+                console.log('_logout验证', err);
             }
         });
         this._renderParent();
     }
+
     //重新渲染父组件
-    _renderParent(){
-        const {changePage} = this.props.user;
-        changePage('LoginPage')
+    _renderParent() {
+        const {changeLoginState} = this.props.user;
+        changeLoginState('LoginPage')
     }
 }
-const mapStateToProps= (state)=>({
-    UserReducer:state.UserReducer
+const mapStateToProps = (state)=>({
+    UserReducer: state.UserReducer
 });
 
 const mapActionCreators = (dispatch)=>({
-    user:bindActionCreators(UserAction,dispatch)
+    user: bindActionCreators(UserAction, dispatch)
 });
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1
+    container: {
+        flex: 1
     },
     titleImage: {
         height: 200,
@@ -206,4 +227,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps,mapActionCreators)(User);
+export default connect(mapStateToProps, mapActionCreators)(User);

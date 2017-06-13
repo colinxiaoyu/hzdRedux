@@ -3,9 +3,9 @@
  */
 import * as type from './actionType'
 
-export function changePage(page) {
+export function changeLoginState(loginState) {
     return {
         type:type.CHANGEPAGE,
-        currentPage:page
+        currentState:loginState
     }
 }

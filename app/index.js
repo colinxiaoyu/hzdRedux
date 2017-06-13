@@ -4,7 +4,7 @@
 import React from 'react'
 import {AsyncStorage} from 'react-native'
 import {Provider} from 'react-redux';
-import Global from './global'
+import Root from './root'
 import store from './store/store';
 
 
@@ -17,7 +17,7 @@ export default class App extends React.Component {
     render() {
         return (
             <Provider store={store}>
-                <Global/>
+                <Root/>
             </Provider>)
     }
 
