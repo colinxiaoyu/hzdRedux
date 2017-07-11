@@ -10,7 +10,7 @@ import {
     Dimensions,
     View
 } from 'react-native';
-import ImagePicker from 'react-native-image-picker'
+import ImagePicker from 'react-native-image-picker';
 
 
 const {width, height}=Dimensions.get('window');
@@ -35,7 +35,7 @@ export default class AddImage extends React.Component {
         super(props);
         this.state = {
             avatarSource: undefined,
-            hasImage: false
+            hasImage: false,
         }
     }
 
@@ -64,7 +64,7 @@ export default class AddImage extends React.Component {
                 });
             }
         });
-    }
+    };
 
     render() {
         return (<View style={styles.container}>
@@ -78,7 +78,7 @@ export default class AddImage extends React.Component {
                     <View>
                         <TouchableOpacity
                             style={styles.content}
-                            onPress={this._addImage}>
+                            onPress={()=>this.props.onPress()}>
                             <Image
                                 resizeMode='contain'
                                 style={styles.addImage}
